@@ -1,8 +1,7 @@
-<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
->
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jcurl</groupId>
 	<artifactId>jcurl</artifactId>
@@ -13,9 +12,8 @@
 		It implements a subset of options from cURL (http://curl.haxx.se/docs/manpage.html)
 	</description>
 	<properties>
-		<maven.compiler.target>1.5</maven.compiler.target>
+		<maven.compiler.target>1.6</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
 		<project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
 		<maven.compiler.encoding>${project.build.sourceEncoding}</maven.compiler.encoding>
 		<maven.compiler.source>${maven.compiler.target}</maven.compiler.source>
@@ -67,7 +65,19 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
+
 		<plugins>
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-compiler-plugin</artifactId>
+	            <version>3.5.1</version>
+	            <configuration>
+	                <compilerArgs>
+	                    <!-- <arg>-verbose</arg> -->
+	                    <arg>-Xlint:all</arg>
+	                </compilerArgs>
+	                </configuration>
+	        </plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
@@ -107,13 +117,10 @@
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>BUNDLE</shadedClassifierName>
 							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"
-								>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>jcurl.Cli</mainClass>
 								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 							</transformers>
 						</configuration>
 					</execution>
