@@ -3,7 +3,7 @@ modelVersion: 4.0.0
 
 groupId: jcurl
 artifactId: jcurl
-version: 1-SNAPSHOT
+version: 1.0.0
 packaging: jar
 
 name: jcURL
