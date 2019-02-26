@@ -1,0 +1,72 @@
+modelEncoding: UTF-8
+modelVersion: 4.0.0
+
+groupId: jcurl
+artifactId: jcurl
+version: 1-SNAPSHOT
+packaging: jar
+
+name: jcURL
+description: >
+  Java implementation of a "cURL like" (Client URL Request Library) software.
+  It implements a subset of options from cURL (http://curl.haxx.se/docs/manpage.html)
+
+properties:
+  maven.compiler.target: 1.6
+  project.build.sourceEncoding: UTF-8
+  project.reporting.outputEncoding: ${project.build.sourceEncoding}
+  maven.compiler.encoding: ${project.build.sourceEncoding}
+  maven.compiler.source: ${maven.compiler.target}
+  sonar.java.source: ${maven.compiler.target}
+  sonar.java.target: ${maven.compiler.target}
+
+dependencies:
+- {groupId: commons-cli, artifactId: commons-cli, version: '[1.2,1.3)'}
+- {groupId: junit, artifactId: junit, version: '[4.11,4.12)', scope: test}
+- {groupId: commons-io, artifactId: commons-io, version: '[2.4,2.5)'}
+- {groupId: org.apache.commons, artifactId: commons-lang3, version: '[3.1,3.2)'}
+- {groupId: org.slf4j, artifactId: slf4j-api, version: '[1.7,1.8)'}
+- {groupId: org.slf4j, artifactId: slf4j-simple, version: '[1.7,1.8)'}
+- {groupId: org.fusesource.jansi, artifactId: jansi, version: 1.11}
+
+build:
+  resources:
+  - directory: src/main/resources
+    filtering: true
+  plugins:
+  - groupId: org.apache.maven.plugins
+    artifactId: maven-compiler-plugin
+    version: 3.5.1
+    configuration:
+      compilerArgs:
+        arg: '-Xlint:all'
+  - groupId: org.apache.maven.plugins
+    artifactId: maven-resources-plugin
+    version: 2.6
+    executions:
+    - id: copy-resources
+      inherited: true
+      phase: validate
+      goals:
+      - copy-resources
+      configuration:
+        outputDirectory: ${project.build.outputDirectory}/META-INF/maven/${project.groupId}/${project.artifactId}
+        resources:
+        - directory: ${basedir}
+          includes:
+          - README.md
+          filtering: false
+  - groupId: org.apache.maven.plugins
+    artifactId: maven-shade-plugin
+    version: 2.0
+    executions:
+    - phase: package
+      goals:
+      - shade
+      configuration:
+          shadedArtifactAttached: true
+          shadedClassifierName: BUNDLE
+          transformers:
+          - attr/implementation: org.apache.maven.plugins.shade.resource.ManifestResourceTransformer
+            mainClass: jcurl.Cli
+          - attr/implementation: org.apache.maven.plugins.shade.resource.ServicesResourceTransformer
