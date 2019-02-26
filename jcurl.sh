@@ -34,8 +34,6 @@ systemTrustore() {
 
 
 main(){
-  local jcurlVersion=1-SNAPSHOT
-
   # Setup with system properties for proxy and trust/key store
   local jcurlOpts="$JCURL_OPTS -Djava.net.useSystemProxies=true"
 
@@ -57,7 +55,8 @@ main(){
     return 1
   fi
 
-  "${JAVA_HOME}\bin\java" ${jcurlOpts} -jar "$__BASEDIR\target\jcurl-${jcurlVersion}-BUNDLE.jar" "$@"
+  local jarFile=`ls "$__BASEDIR/target/"jcurl-*-BUNDLE.jar | sort | tail -1`
+  "${JAVA_HOME}\bin\java" ${jcurlOpts} -jar "$jarFile" "$@"
   return $?
 }
 
